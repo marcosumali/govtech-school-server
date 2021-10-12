@@ -1,10 +1,14 @@
-require('dotenv').config()
-const express = require('express')
+require('dotenv').config();
+const express = require('express');
 
-const app = express()
-const PORT = process.env.PORT || 8080
+const rootRouter = require('./routes');
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const app = express();
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => console.log(`App is listening at http://localhost:${PORT}`))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.listen(PORT, () => console.log(`App is listening at http://localhost:${PORT}`));
+
+app.use('/', rootRouter);
