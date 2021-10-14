@@ -12,7 +12,7 @@ const {
 const studentsExist = requestField => {
   return async (req, res, next) => {
     const payload = req[requestField]
-    const studentsEmail = typeof payload.student === 'string'? [payload.student] : payload.student // E.g. shawn@edu.com OR [shawn@edu.com]
+    const studentsEmail = typeof payload.student === 'string'? [payload.student] : payload.students // E.g. shawn@edu.com OR [shawn@edu.com]
 
     // 1. Validate whether email is exists on student database
     const validStudents = [] // E.g. [{id: '1', name, email, etc...}]
