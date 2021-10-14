@@ -1,6 +1,7 @@
 const {
   generateError,
   getCombinedArray,
+  isEmailEnglishFormat,
 } = require('../helper/utils');
 
 // Function to check form completeness dynamically based on required field and request body
@@ -39,6 +40,40 @@ const formCompleteness = (requiredFields) => {
   }
 }
 
+// Function to dynamically check whether value from required fields is a valid english email format
+// Function must able to validate value in string or in array of strings
+// For example:
+// requiredFields = [teacher, students]
+// teachers: shawn@edu.com
+// students: [john1@edu,com, john2@edu.com]
+const validateEmails = (requiredFields) => {
+  return (req, res, next) => {
+    const invalidEmails = []
+    requiredFields && requiredFields.map(field => {
+      const value = req.body[field]
+      const isString = typeof value === 'string'
+      const isArray = Array.isArray(value)
+
+      if (isString) {
+        if (!isEmailEnglishFormat(value)) invalidEmails.push(value)
+      }
+
+      if (isArray) {
+        value && value.map(email => {
+          if (!isEmailEnglishFormat(email)) invalidEmails.push(email)
+        })
+      }
+    }) 
+    
+    if (invalidEmails.length <= 0) next()
+    if (invalidEmails.length > 0) {
+      const emailString = getCombinedArray(invalidEmails)
+      const error = generateError(400, `Form has missing invalid emails: ${emailString}`)
+      next(error)
+    }
+  }
+}
+
 const catchError = (err, req, res, next) => {
   if (!err) next()
   if (err) {
@@ -51,4 +86,5 @@ const catchError = (err, req, res, next) => {
 module.exports= {
   formCompleteness,
   catchError,
+  validateEmails,
 }
