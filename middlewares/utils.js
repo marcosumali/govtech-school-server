@@ -5,9 +5,16 @@ const {
 } = require('../helper/utils');
 
 // Function to check form completeness dynamically based on required field and request body
-const formCompleteness = (requiredFields) => {
+// request field: represent type of request field that need to be check
+// e.g. req.body => {teacher: shawn@edu.com, students: [john1@edu.com, john2@edu.com]}
+// requiredFields: represent mandatory fields to be check on the payload request
+// e.g. ['teacher', 'students']
+// Expected return: to check whether request body contain teacher and students field
+// and each field must have values
+const formCompleteness = (requestField, requiredFields) => {
   return (req, res, next) => {
-    const emptyPayload = req.body && Object.keys(req.body).length === 0 && Object.getPrototypeOf(req.body) === Object.prototype
+    const payload = req[requestField] // E.g. req.body || req.query
+    const emptyPayload = payload && Object.keys(payload).length === 0 && Object.getPrototypeOf(payload) === Object.prototype
     // Check for empty payload
     // If empty payload then send error message
     if (emptyPayload) {
@@ -17,7 +24,7 @@ const formCompleteness = (requiredFields) => {
 
     if (!emptyPayload) {
       // 1. Get object fields from request body
-      const keys = Object.keys(req.body)
+      const keys = Object.keys(payload)
       
       // 2. Field is considered incompleted if:
       // - keys from request body is not exists on required fields
@@ -25,7 +32,7 @@ const formCompleteness = (requiredFields) => {
       const incompleteFields = []
       requiredFields && requiredFields.map(field => {
         const isNotExists = keys.indexOf(field) < 0 
-        const isEmpty = req.body[field] ? req.body[field].length <= 0 : true
+        const isEmpty = payload[field] ? payload[field].length <= 0 : true
         if (isNotExists || isEmpty) incompleteFields.push(field)
       })
       
@@ -43,14 +50,17 @@ const formCompleteness = (requiredFields) => {
 // Function to dynamically check whether value from required fields is a valid english email format
 // Function must able to validate value in string or in array of strings
 // For example:
-// requiredFields = [teacher, students]
-// teachers: shawn@edu.com
-// students: [john1@edu,com, john2@edu.com]
-const validateEmails = (requiredFields) => {
+// request field: represent type of request field that need to be check
+// e.g. req.body => {teacher: shawn@edu.com, students: [john1@edu.com, john2@edu.com]}
+// requiredFields: represent mandatory fields to be check on the payload request
+// e.g. ['teacher', 'students']
+// Expected goal: return whether value of required fields are valid email
+const validateEmails = (requestField, requiredFields) => {
   return (req, res, next) => {
+    const payload = req[requestField] // E.g. req.body || req.query
     const invalidEmails = []
     requiredFields && requiredFields.map(field => {
-      const value = req.body[field]
+      const value = payload[field]
       const isString = typeof value === 'string'
       const isArray = Array.isArray(value)
 
@@ -68,7 +78,7 @@ const validateEmails = (requiredFields) => {
     if (invalidEmails.length <= 0) next()
     if (invalidEmails.length > 0) {
       const emailString = getCombinedArray(invalidEmails)
-      const error = generateError(400, `Form has missing invalid emails: ${emailString}`)
+      const error = generateError(400, `Form has invalid emails: ${emailString}`)
       next(error)
     }
   }

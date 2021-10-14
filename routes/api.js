@@ -15,12 +15,29 @@ const {
 const {
   registerStudents,
 } = require('../controllers/teacher');
+const {
+  getStudentsByTeacher,
+} = require('../controllers/student');
 
 
 const router = express.Router();
 
 router
-  .post('/register', formCompleteness(['teacher', 'students']), validateEmails(['teacher', 'students']), teachersExist, studentsExist, studentRegistered, catchError, registerStudents)
+  .post('/register', 
+    formCompleteness('body', ['teacher', 'students']),
+    validateEmails('body', ['teacher', 'students']),
+    teachersExist('body'), studentsExist('body'), // Validate input existance on the database
+    studentRegistered, // Validate students duplicate registraction with teacher
+    catchError, 
+    registerStudents
+  )
+  .get('/commonstudents', 
+    formCompleteness( 'query', ['teacher']), 
+    validateEmails('query', ['teacher', 'students']),
+    teachersExist('query'),
+    catchError,
+    getStudentsByTeacher
+  )
 
   
 module.exports = router;
