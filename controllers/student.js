@@ -33,7 +33,29 @@ const getStudentsByTeacher = async (req, res) => {
   }
 }
 
+const suspendStudent = async (req, res) => {
+  try {
+    const {students} = req
+    const {student_id} = students[0]
+  
+    const [statuses] = await db.query(`SELECT * FROM status WHERE name = ?`, ['Suspended'])
+    const {status_id} = statuses[0]
+  
+    await db.query(
+      `UPDATE student SET status_id = ?
+      WHERE student_id = UUID_TO_BIN(?)`,
+      [status_id, student_id]
+    )
+    res.status(204).send()
+
+  } catch (err) {
+    console.log('ERROR:', err.stack)
+    res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   getStudentsByTeacher,
+  suspendStudent,
 }

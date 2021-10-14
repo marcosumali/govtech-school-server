@@ -17,6 +17,7 @@ const {
 } = require('../controllers/teacher');
 const {
   getStudentsByTeacher,
+  suspendStudent,
 } = require('../controllers/student');
 
 
@@ -38,6 +39,12 @@ router
     catchError,
     getStudentsByTeacher
   )
+  .post('/suspend', 
+    formCompleteness('body', ['student']),
+    validateEmails('body', ['student']),
+    studentsExist('body'),
+    catchError,
+    suspendStudent)
 
   
 module.exports = router;
