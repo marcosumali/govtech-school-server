@@ -2,8 +2,7 @@ const db = require('../configs/db');
 
 const registerStudents = async (req, res) => {
   try {
-    const teachers = req.teachers
-    const students = req.students
+    const {teachers, students} = req
 
     await Promise.all(students && students.map(async student => {
       await db.query(

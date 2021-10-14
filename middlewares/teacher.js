@@ -21,7 +21,7 @@ const teachersExist = async (req, res, next) => {
   // 2. If found invalid teachers, send error message
   if(invalidTeachers.length > 0) {
     const invalidTeacherString = getCombinedArray(invalidTeachers)
-    const error = generateError(400, `Teachers doesn't exist: ${invalidTeacherString}`)
+    const error = generateError(404, `Teachers doesn't exist: ${invalidTeacherString}`)
     next(error)
   }
 
@@ -31,6 +31,7 @@ const teachersExist = async (req, res, next) => {
     next()
   }
 } 
+
 
 module.exports = {
   teachersExist,

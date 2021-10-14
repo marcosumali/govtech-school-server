@@ -2,6 +2,7 @@ const db = require('../configs/db');
 const {
   generateError,
   getCombinedArray,
+  getConditionQueries,
 } = require('../helper/utils');
 
 // Function to check whether students are exists on the database
@@ -21,7 +22,7 @@ const studentsExist = async (req, res, next) => {
   // 2. If found invalid student, send error message
   if(invalidStudents.length > 0) {
     const invalidStudentString = getCombinedArray(invalidStudents)
-    const error = generateError(400, `Students doesn't exist: ${invalidStudentString}`)
+    const error = generateError(404, `Students doesn't exist: ${invalidStudentString}`)
     next(error)
   }
 
@@ -30,8 +31,53 @@ const studentsExist = async (req, res, next) => {
     req.students = validStudents
     next()
   }
-} 
+}
+
+// Function to validate whether certain student has been registered to certain teacher
+const studentRegistered = async (req, res, next) => {
+  const {teachers, students} = req
+  const teacherId = teachers[0].teacher_id
+  // 1. Check if any student has been registered to related teacher
+  const registeredStudents = []
+  await Promise.all(students && students.map(async student => {
+    const data = {teacher_id: teacherId, student_id: student.student_id}
+    const {conditionQueries, values} = getConditionQueries(data, 'AND')
+    // Condition queries will generate general queries
+    // Since student_id represent binary on the table, we need to convert back from UUID to BIN
+    // Otherwise we'll fetch incorrect queries using UUID instead of BIN
+    // Expected: `teacher_id = ? AND student_id = ?` => `teacher_id = ? AND student_id = UUID_TO_BIN(?)`
+    const revisedQueries = conditionQueries
+      .split(' AND ')
+      .map(string => {
+        const studentIdRegex = new RegExp('student_id')
+        const isStudentId = studentIdRegex.test(string)
+        if (!isStudentId) return string
+        if (isStudentId) return `student_id = UUID_TO_BIN(?)`
+      })
+      .join(' AND ')
+
+    const [rows] = await db.query(
+      `SELECT BIN_TO_UUID(teacher_student_id) AS teacher_student_id, teacher_id, BIN_TO_UUID(student_id) AS student_id  
+      FROM teacher_student 
+      WHERE ${revisedQueries}`, 
+      values,
+    )
+
+    if (rows.length > 0) registeredStudents.push(student)
+  }))
+
+  // 2. If students has been registered then send error
+  // Otherwise proceed to next
+  if (registeredStudents.length <= 0) next()
+  if (registeredStudents.length > 0) {
+    const invalidStudentString = getCombinedArray(registeredStudents.map(student => student.email))
+    const error = generateError(409, `Following students have been registed to the related teacher: ${invalidStudentString}`)
+    next(error)
+  }
+}
+
 
 module.exports = {
   studentsExist,
+  studentRegistered,
 }

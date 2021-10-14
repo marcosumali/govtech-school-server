@@ -10,6 +10,7 @@ const {
 } = require('../middlewares/teacher');
 const {
   studentsExist,
+  studentRegistered,
 } = require('../middlewares/student');
 const {
   registerStudents,
@@ -19,7 +20,7 @@ const {
 const router = express.Router();
 
 router
-  .post('/register', formCompleteness(['teacher', 'students']), validateEmails(['teacher', 'students']), teachersExist, studentsExist, catchError, registerStudents)
+  .post('/register', formCompleteness(['teacher', 'students']), validateEmails(['teacher', 'students']), teachersExist, studentsExist, studentRegistered, catchError, registerStudents)
 
   
 module.exports = router;

@@ -18,9 +18,26 @@ const getCombinedArray = (array) => array.reduce((total, value, index, arr) => {
 // So by set as false, we only allow english latin characters of: A-Z, a-z, 0-9 and some symbols
 const isEmailEnglishFormat = email => isEmail(email, {allow_utf8_local_part: false})
 
+// Function to generate condition queries dynamically
+// Example: 
+// obj: {name: 'Test', phone: '123'}
+// Expected queries: `name = ? OR phone = ?`
+// Expected values: ['Test', '123']
+const getConditionQueries = (obj, condition = 'OR') => {
+  const keys = Object.keys(obj)
+  const conditionQueries = keys.reduce((total, key, index, arr) => {
+    if (index >= arr.length-1) return total += `${key} = ?`
+    return total += `${key} = ? ${condition} `
+  }, '')
+  const values = Object.values(obj)
+  
+  return {conditionQueries, values}
+}
+
 
 module.exports = {
   generateError,
   getCombinedArray,
   isEmailEnglishFormat,
+  getConditionQueries,
 }
