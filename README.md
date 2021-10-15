@@ -36,7 +36,7 @@ To start this application on locahost, you just need to git clone it on your loc
 npm install
 
 # Add environment variables file (.env) at root
-# Please refer to `.env.sample` file for variables that you need to create
+# Please refer to `.env.sample` file for variables that you need to save
 
 # Add dummy data to your local MySQL database
 # Please refer to `seeders` folder for sample data 
