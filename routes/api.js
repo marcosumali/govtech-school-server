@@ -3,6 +3,7 @@ const express = require('express');
 const {
   formCompleteness,
   validateEmails,
+  validateEmailsOnString,
   catchError,
 } = require('../middlewares/utils');
 const {
@@ -18,6 +19,7 @@ const {
 const {
   getStudentsByTeacher,
   suspendStudent,
+  getStudentsForNotification,
 } = require('../controllers/student');
 
 
@@ -44,7 +46,17 @@ router
     validateEmails('body', ['student']),
     studentsExist('body'),
     catchError,
-    suspendStudent)
+    suspendStudent
+  )
+  .post('/retrievefornotifications', 
+    formCompleteness('body', ['teacher', 'notification']),
+    validateEmails('body', ['teacher']),
+    teachersExist('body'),
+    validateEmailsOnString('body', ['notification'], 'students'),
+    studentsExist('body'),
+    catchError,
+    getStudentsForNotification
+  )
 
   
 module.exports = router;

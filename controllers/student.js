@@ -54,8 +54,13 @@ const suspendStudent = async (req, res) => {
   }
 }
 
+const getStudentsForNotification = async (req, res) => {
+  console.log('--MASUK')
+}
+
 
 module.exports = {
   getStudentsByTeacher,
   suspendStudent,
+  getStudentsForNotification,
 }

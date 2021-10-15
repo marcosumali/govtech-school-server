@@ -11,7 +11,7 @@ const {
 const teachersExist = (requestField) => {
   return async (req, res, next) => {
     const payload = req[requestField]
-    const teachersEmail = typeof payload.teacher === 'string'? [payload.teacher] : payload.teacher // E.g. shawn@edu.com OR [shawn@edu.com]
+    const teachersEmail = typeof payload.teacher === 'string'? [payload.teacher] : (payload.teacher || payload.teachers) // E.g. shawn@edu.com OR [shawn@edu.com]
   
     // 1. Validate whether email is exists on teacher database
     const validTeachers = [] // E.g. [{id: '1', name, email, etc...}]
@@ -36,7 +36,6 @@ const teachersExist = (requestField) => {
     }
   } 
 }
-
 
 
 module.exports = {
