@@ -1,0 +1,31 @@
+{
+  "name": "govtech-school-server",
+  "version": "0.0.0",
+  "description": "poc for govtech",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcosumali/govtech-school-server.git"
+  },
+  "author": "marcosumali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcosumali/govtech-school-server/issues"
+  },
+  "homepage": "https://github.com/marcosumali/govtech-school-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}

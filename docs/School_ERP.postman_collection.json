@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "d8614e84-4bb6-442e-b958-b3851f063491",
+		"name": "School_ERP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register students",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"teacher\": \"sransfield0@booking.com\",\n  \"students\": [\n    \"bgerling0@hao123.com\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/register",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get registered students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/commonstudents?teacher=ahedin3%40yolasite.com",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"commonstudents"
+					],
+					"query": [
+						{
+							"key": "teacher",
+							"value": "ahedin3%40yolasite.com"
+						},
+						{
+							"key": "teacher",
+							"value": "sransfield0@booking.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Suspend a student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student\": \"bgerling0@hao123.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/suspend",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"suspend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve students for notifications",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"teacher\":  \"sransfield0@booking.com\",\n  \"notification\": \"Hello students! @lheadano@ning.com @cbrobak1d@sphinn.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/retrievefornotifications",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"retrievefornotifications"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
