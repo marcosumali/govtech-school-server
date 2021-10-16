@@ -21,4 +21,4 @@ npm run test
 
 #Start our node app in the background
 echo "Starting our server..."
-npm run start 
+node app.js > app.out.log 2> app.err.log < /dev/null &  
