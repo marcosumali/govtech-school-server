@@ -15,9 +15,9 @@ export NVM_DIR="$HOME/.nvm"
 echo "Installing dependencies..."
 npm install
 
-#Test our codes
-echo "Running our test codes..."
-npm run test
+# #Test our codes
+# echo "Running our test codes..."
+# npm run test
 
 #Start our node app in the background
 echo "Starting our server..."

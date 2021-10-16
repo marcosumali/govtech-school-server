@@ -1,12 +1,9 @@
 #!/bin/bash
 
-#Download NodeJS
-echo "Download NodeJS v16.x..."
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-
-#Install NodeJS
-echo "Installing NodeJS v16.x..."
-sudo apt-get install -y nodejs
+#Download NodeJS and npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
 
 #Check node version
 echo "Checking node version..."
