@@ -10,9 +10,9 @@ which we're required to build and develop based on tech stack.
 Back-end engine: NodeJS  
 Framework: ExpressJS  
 RDMS: MySQL  
-CI/CD: Github Actions  
+CI/CD: Amazon Code Pipeline and Amazon Code Deploy  
 Cloud Server: Amazon EC2  
-Cloud Database: Amazon RDS  
+Cloud Database: Amazon RDS Aurora(MySQL) 
 Database Schema: [Draw.io](https://drive.google.com/file/d/1Y02-s-osBO97V_N2bx6ojAXH8sb-mtT-/view?usp=sharing)  
 Published API Endpoint: [API Endpoint](http://18.138.234.136:3000)  
 
