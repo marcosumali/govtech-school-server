@@ -20,9 +20,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{localhost}}/api/register",
+					"raw": "{{base_url}}/api/register",
 					"host": [
-						"{{localhost}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -38,9 +38,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{localhost}}/api/commonstudents?teacher=ahedin3%40yolasite.com",
+					"raw": "{{base_url}}/api/commonstudents?teacher=sransfield0@booking.com",
 					"host": [
-						"{{localhost}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -49,12 +49,7 @@
 					"query": [
 						{
 							"key": "teacher",
-							"value": "ahedin3%40yolasite.com"
-						},
-						{
-							"key": "teacher",
-							"value": "sransfield0@booking.com",
-							"disabled": true
+							"value": "sransfield0@booking.com"
 						}
 					]
 				}
@@ -68,7 +63,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"student\": \"bgerling0@hao123.com\"\n}",
+					"raw": "{\n    \"student\": \"cbrobak1d@sphinn.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,9 +71,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{localhost}}/api/suspend",
+					"raw": "{{base_url}}/api/suspend",
 					"host": [
-						"{{localhost}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -103,9 +98,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{localhost}}/api/retrievefornotifications",
+					"raw": "{{base_url}}/api/retrievefornotifications",
 					"host": [
-						"{{localhost}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
