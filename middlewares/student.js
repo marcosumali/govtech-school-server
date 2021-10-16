@@ -18,7 +18,7 @@ const studentsExist = requestField => {
     const validStudents = [] // E.g. [{id: '1', name, email, etc...}]
     const invalidStudents = [] // E.g. [shawn@edu.com]
     await Promise.all(studentsEmail && studentsEmail.map(async studentEmail => {
-      const [rows] = await db.query(`SELECT BIN_TO_UUID(student_id) AS student_id, first_name, last_name, email FROM student WHERE email = ?`, [studentEmail])
+      const [rows] = await db.query(`SELECT student_id, first_name, last_name, email FROM student WHERE email = ?`, [studentEmail])
       if (rows.length > 0) validStudents.push(rows[0])
       if (rows.length <= 0) invalidStudents.push(studentEmail)
     }))
@@ -26,7 +26,7 @@ const studentsExist = requestField => {
     // 2. If found invalid student, send error message
     if(invalidStudents.length > 0) {
       const invalidStudentString = getCombinedArray(invalidStudents)
-      const error = generateError(404, `Students doesn't exist: ${invalidStudentString}`)
+      const error = generateError(404, `Students don't exist: ${invalidStudentString}`)
       next(error)
     }
 
@@ -50,21 +50,21 @@ const studentRegistered = async (req, res, next) => {
     // Condition queries will generate general queries
     // Since student_id represent binary on the table, we need to convert back from UUID to BIN
     // Otherwise we'll fetch incorrect queries using UUID instead of BIN
-    // Expected: `teacher_id = ? AND student_id = ?` => `teacher_id = ? AND student_id = UUID_TO_BIN(?)`
+    // Expected: `teacher_id = ? AND student_id = ?` => `teacher_id = ? AND student_id = ?`
     const revisedQueries = conditionQueries
       .split(' AND ')
       .map(string => {
         const studentIdRegex = new RegExp('student_id')
         const isStudentId = studentIdRegex.test(string)
         if (!isStudentId) return string
-        if (isStudentId) return `student_id = UUID_TO_BIN(?)`
+        if (isStudentId) return `student_id = ?`
       })
       .join(' AND ')
 
     const [rows] = await db.query(
-      `SELECT BIN_TO_UUID(teacher_student_id) AS teacher_student_id, teacher_id, BIN_TO_UUID(student_id) AS student_id  
+      `SELECT teacher_student_id, teacher_id, student_id  
       FROM teacher_student 
-      WHERE ${revisedQueries}`, 
+      WHERE ${conditionQueries}`, 
       values,
     )
 

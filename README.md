@@ -40,6 +40,8 @@ npm install
 
 # Add dummy data to your local MySQL database
 # Please refer to `seeders` folder for sample data 
+# Please notice that we have middleware function to validate whether teacher or student is exists on school database
+# So if you need valid teacher and student, please refer to `seeders` folder for reference 
 
 # Development
 npm run start

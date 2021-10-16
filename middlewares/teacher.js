@@ -25,7 +25,7 @@ const teachersExist = (requestField) => {
     // 2. If found invalid teachers, send error message
     if(invalidTeachers.length > 0) {
       const invalidTeacherString = getCombinedArray(invalidTeachers)
-      const error = generateError(404, `Teachers doesn't exist: ${invalidTeacherString}`)
+      const error = generateError(404, `Teachers don't exist: ${invalidTeacherString}`)
       next(error)
     }
   
