@@ -14,12 +14,12 @@ CI/CD: Amazon Code Pipeline and Amazon Code Deploy
 Cloud Server: Amazon EC2  
 Cloud Database: Amazon RDS Aurora(MySQL) 
 Database Schema: [Draw.io](https://drive.google.com/file/d/1Y02-s-osBO97V_N2bx6ojAXH8sb-mtT-/view?usp=sharing)  
-Published API Endpoint: [API Endpoint](http://18.138.234.136:3000)  
+Published API Endpoint: [API Endpoint](http://ec2-18-141-219-32.ap-southeast-1.compute.amazonaws.com:3000)  
 
 
 ### API Documentation
 Please refer to postman collection on `docs` folder for API documentation.
-
+Please note `{{base_url}}` environment variables for postman is the published API endpoints.
 
 ### Prerequisites
 Please install below dependencies on your local machine:
