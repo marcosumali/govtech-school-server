@@ -43,7 +43,7 @@ const suspendStudent = async (req, res) => {
   
     await db.query(
       `UPDATE student SET status_id = ?
-      WHERE student_id = UUID_TO_BIN(?)`,
+      WHERE student_id = ?`,
       [status_id, student_id]
     )
     res.status(204).send()
@@ -71,7 +71,7 @@ const getStudentsForNotification = async (req, res) => {
       const [activeStudents] = await db.query(
         `SELECT student.email AS email FROM student 
         LEFT JOIN status ON student.status_id = status.status_id
-        WHERE student.student_id = UUID_TO_BIN(?) AND status.name = ?
+        WHERE student.student_id = ? AND status.name = ?
         `, 
         [student.student_id, 'Active']
       )

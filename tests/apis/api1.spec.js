@@ -36,8 +36,8 @@ describe('Test API #1 - Register students to a teacher', () => {
       )
       const student = students[0]
       await db.query(
-        `INSERT INTO teacher_student (teacher_student_id, teacher_id, student_id) 
-        VALUES (UUID_TO_BIN(UUID()), ?, ?)`, 
+        `INSERT INTO teacher_student (teacher_id, student_id) 
+        VALUES (?, ?)`, 
         [teacher.teacher_id, student.student_id]
       )
     }

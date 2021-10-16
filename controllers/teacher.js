@@ -6,8 +6,8 @@ const registerStudents = async (req, res) => {
 
     await Promise.all(students && students.map(async student => {
       await db.query(
-        `INSERT INTO teacher_student (teacher_student_id, teacher_id, student_id) 
-        VALUES (UUID_TO_BIN(UUID()), ?, UUID_TO_BIN(?))`, 
+        `INSERT INTO teacher_student (teacher_id, student_id) 
+        VALUES (?, ?)`, 
         [teachers[0].teacher_id, student.student_id]
       )
     }))
