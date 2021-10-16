@@ -14,7 +14,7 @@ CI/CD: Github Actions
 Cloud Server: Amazon EC2  
 Cloud Database: Amazon RDS  
 Database Schema: [Draw.io](https://drive.google.com/file/d/1Y02-s-osBO97V_N2bx6ojAXH8sb-mtT-/view?usp=sharing)  
-Published API Endpoint: [API Endpoint](https://xxx.com)  
+Published API Endpoint: [API Endpoint](http://18.138.234.136:3000)  
 
 
 ### API Documentation
@@ -44,7 +44,7 @@ npm install
 # So if you need valid teacher and student, please refer to `seeders` folder for reference 
 
 # Development
-npm run start
+npm run dev
 
 # Test
 npm run test
