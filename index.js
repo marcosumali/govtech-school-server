@@ -14,3 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(PORT, () => console.log(`App is listening at http://localhost:${PORT}`));
 
 app.use('/', rootRouter);
+
+
+module.exports = app;
