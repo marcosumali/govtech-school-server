@@ -17,7 +17,7 @@ echo "Installing pm2..."
 sudo i -g pm2
 
 #Create our working directory if it doesnt exist
-DIR="/home/ec2-user/school-erp"
+DIR="/home/ubuntu/school-erp"
 if [ -d "$DIR" ]; then
   echo "${DIR} exists"
 else

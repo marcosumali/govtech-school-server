@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Give permission for everything in the school-erp directory
-sudo chmod -R 777 /home/ec2-user/school-erp
+sudo chmod -R 777 /home/ubuntu/school-erp
 
 #Navigate into our working directory where we have all our github files
-cd /home/ec2-user/school-erp
+cd /home/ubuntu/school-erp
 
 #Add npm and node to path
 export NVM_DIR="$HOME/.nvm"	
