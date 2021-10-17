@@ -18,7 +18,7 @@ app.use('/', rootRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const error = generateError(404, 'Path not found')
+  const error = generateError(404, 'Incorrect path')
   next(error);
 });
 
