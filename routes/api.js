@@ -22,7 +22,6 @@ const {
   getStudentsForNotification,
 } = require('../controllers/student');
 
-
 const router = express.Router();
 
 router
