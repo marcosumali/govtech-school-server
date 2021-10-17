@@ -10,14 +10,36 @@ const getStudentsByTeacher = async (req, res) => {
     
     // 1. Get students data based on registered teacher on conjunction table
     const teacherKeys = teacherEmails && teacherEmails.map(() => 't.email')
-    const teacherQueries = getConditionQueries(teacherKeys, 'AND')
-    const [students] = await db.query(
-      `SELECT s.email FROM teacher_student ts
-      LEFT JOIN teacher t ON ts.teacher_id = t.teacher_id
-      LEFT JOIN student s ON ts.student_id = s.student_id
-      WHERE ${teacherQueries}`, 
-      teacherEmails
-    )
+    const teacherQueries = getConditionQueries(teacherKeys)
+    let students = []
+    
+    // If only one teacher, return student registered to them
+    if (teacherEmails.length <= 1) {
+      const [rows] = await db.query(
+        `SELECT s.email FROM teacher_student ts
+        LEFT JOIN teacher t ON ts.teacher_id = t.teacher_id
+        LEFT JOIN student s ON ts.student_id = s.student_id
+        WHERE ${teacherQueries}`, 
+        teacherEmails
+      )
+      students = [...rows]
+    }
+
+    // If more than one teacher, find students that is registed on all teachers
+    // by checking if student email count is more than one rows
+    if (teacherEmails.length > 1) {
+      const [rows] = await db.query(
+        `SELECT s.email FROM teacher_student ts
+        LEFT JOIN teacher t ON ts.teacher_id = t.teacher_id
+        LEFT JOIN student s ON ts.student_id = s.student_id
+        WHERE ${teacherQueries}
+        GROUP BY s.email
+        HAVING COUNT(*) >1`, 
+        teacherEmails
+      )
+      students = [...rows]
+    }  
+
     const studentEmails = students && students.map(student => student.email)
     res.status(200).json({students: studentEmails})
     

@@ -142,7 +142,6 @@ const validateEmailsOnString = (property, requiredFields, target) => {
 }
 
 const catchError = (err, req, res, next) => {
-  console.log('---', err)
   if (!err) next()
   if (err) {
     const {code, error} = err
