@@ -122,10 +122,7 @@ const getStudentsForNotification = async (req, res) => {
     const recipients = activeMentionedStudents
       .concat(activeRegisterStudents) // Combine both students
       .map(student => student.email) // Restructure to array of emails
-      .filter((student, index, arr) => { // Filter out dupliucate emails
-        const firstIndex = arr.findIndex(obj => obj.student_id === student.student_id)
-        if (index === firstIndex) return student
-      })
+      .filter((email, index, arr) => arr.indexOf(email) === index) // Filter unique
 
     res.status(200).json({recipients})
 
