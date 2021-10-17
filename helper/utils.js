@@ -20,18 +20,15 @@ const isEmailEnglishFormat = email => isEmail(email, {allow_utf8_local_part: fal
 
 // Function to generate condition queries dynamically
 // Example: 
-// obj: {name: 'Test', phone: '123'}
-// Expected queries: `name = ? OR phone = ?`
-// Expected values: ['Test', '123']
-const getConditionQueries = (obj, condition = 'OR') => {
-  const keys = Object.keys(obj)
+// keys: ['name', 'email']
+// Expected queries: `name = ? OR email = ?`
+const getConditionQueries = (keys, condition = 'OR') => {
   const conditionQueries = keys.reduce((total, key, index, arr) => {
     if (index >= arr.length-1) return total += `${key} = ?`
     return total += `${key} = ? ${condition} `
   }, '')
-  const values = Object.values(obj)
   
-  return {conditionQueries, values}
+  return conditionQueries
 }
 
 

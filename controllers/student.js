@@ -7,22 +7,16 @@ const getStudentsByTeacher = async (req, res) => {
     const {teacher} = req.query
     const isString = typeof teacher === 'string'
     const teacherEmails = isString? [teacher] : teacher
-
-    // 1. Get teachers data based on their email
-    const emailData = {}
-    teacherEmails && teacherEmails.map(email => emailData.email = decodeURIComponent(email))
-    const {conditionQueries, values} = getConditionQueries(emailData)
-    const [teachers] = await db.query(`SELECT * FROM teacher WHERE ${conditionQueries}`, [values])
-
-    // 2. Get students data based on registered teacher on conjunction table
-    const teacherData = {}
-    teachers && teachers.map(teacher => teacherData.teacher_id = teacher.teacher_id)
-    const teacherCondition = getConditionQueries(teacherData)
+    
+    // 1. Get students data based on registered teacher on conjunction table
+    const teacherKeys = teacherEmails && teacherEmails.map(() => 't.email')
+    const teacherQueries = getConditionQueries(teacherKeys, 'AND')
     const [students] = await db.query(
-      `SELECT student.email FROM teacher_student 
-      RIGHT JOIN student ON teacher_student.student_id = student.student_id
-      WHERE ${teacherCondition.conditionQueries}`, 
-      [teacherCondition.values]
+      `SELECT s.email FROM teacher_student ts
+      LEFT JOIN teacher t ON ts.teacher_id = t.teacher_id
+      LEFT JOIN student s ON ts.student_id = s.student_id
+      WHERE ${teacherQueries}`, 
+      teacherEmails
     )
     const studentEmails = students && students.map(student => student.email)
     res.status(200).json({students: studentEmails})

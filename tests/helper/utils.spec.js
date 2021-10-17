@@ -58,21 +58,14 @@ describe('Test helper functions', () => {
     })
 
     describe('getConditionQueries()', () => {
-      it('should convert object into condition queries with values in string', () => {
-        const data = {email: 'shawn@edu.com', teacher_id: 1}
+      it('should convert arrays of key into condition queries in string', () => {
+        const keys = ['email', 'teacher_id']
         const condition = 'AND'
         const expectedQueries = 'email = ? AND teacher_id = ?'
-        const expectedValues = ['shawn@edu.com', 1]
-        const result = getConditionQueries(data, condition)
+        const result = getConditionQueries(keys, condition)
 
-        expect(result).to.be.a('object')
-        expect(result).to.have.property('conditionQueries')
-        expect(result).to.have.property('values')
-        expect(result.conditionQueries).to.be.a('string')
-        expect(result.conditionQueries).to.equal(expectedQueries)
-        expect(result.values).to.be.a('array')
-        expect(result.values[0]).to.equal(expectedValues[0])
-        expect(result.values[1]).to.equal(expectedValues[1])
+        expect(result).to.be.a('string')
+        expect(result).to.equal(expectedQueries)
       })
     })
   })

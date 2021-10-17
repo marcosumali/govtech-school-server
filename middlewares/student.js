@@ -46,25 +46,14 @@ const studentRegistered = async (req, res, next) => {
   const registeredStudents = []
   await Promise.all(students && students.map(async student => {
     const data = {teacher_id: teacherId, student_id: student.student_id}
-    const {conditionQueries, values} = getConditionQueries(data, 'AND')
-    // Condition queries will generate general queries
-    // Since student_id represent binary on the table, we need to convert back from UUID to BIN
-    // Otherwise we'll fetch incorrect queries using UUID instead of BIN
-    // Expected: `teacher_id = ? AND student_id = ?` => `teacher_id = ? AND student_id = ?`
-    const revisedQueries = conditionQueries
-      .split(' AND ')
-      .map(string => {
-        const studentIdRegex = new RegExp('student_id')
-        const isStudentId = studentIdRegex.test(string)
-        if (!isStudentId) return string
-        if (isStudentId) return `student_id = ?`
-      })
-      .join(' AND ')
+    const keys = ['teacher_id', 'student_id']
+    const values = [teacherId, student.student_id]
+    const queries = getConditionQueries(keys, 'AND')
 
     const [rows] = await db.query(
       `SELECT teacher_student_id, teacher_id, student_id  
       FROM teacher_student 
-      WHERE ${conditionQueries}`, 
+      WHERE ${queries}`, 
       values,
     )
 
