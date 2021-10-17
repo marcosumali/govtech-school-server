@@ -1,6 +1,7 @@
 const express = require('express');
 
 const {
+  validateRequestContentType,
   formCompleteness,
   validateEmails,
   validateEmailsOnString,
@@ -26,6 +27,7 @@ const router = express.Router();
 
 router
   .post('/register', 
+    validateRequestContentType('application/json'),
     formCompleteness('body', ['teacher', 'students']),
     validateEmails('body', ['teacher', 'students']),
     teachersExist('body'), studentsExist('body'), // Validate input existance on the database
@@ -41,6 +43,7 @@ router
     getStudentsByTeacher
   )
   .post('/suspend', 
+    validateRequestContentType('application/json'),
     formCompleteness('body', ['student']),
     validateEmails('body', ['student']),
     studentsExist('body'),

@@ -4,6 +4,16 @@ const {
   isEmailEnglishFormat,
 } = require('../helper/utils');
 
+const validateRequestContentType = (reqContentType) => {
+  return (req, res, next) => {
+    if (req.is(reqContentType)) next ()
+    if (!req.is(reqContentType)) {
+      const error = generateError(400, `Invalid request headers content type`)
+      next(error)
+    }
+  }
+}
+
 // Function to check form completeness dynamically based on required field and request body
 // property: represent type of request field that need to be check
 // e.g. req.body => {teacher: shawn@edu.com, students: [john1@edu.com, john2@edu.com]}
@@ -14,6 +24,7 @@ const {
 const formCompleteness = (property, requiredFields) => {
   return (req, res, next) => {
     const payload = req[property] // E.g. req.body || req.query
+
     const emptyPayload = payload && Object.keys(payload).length === 0 && Object.getPrototypeOf(payload) === Object.prototype
     // Check for empty payload
     // If empty payload then send error message
@@ -131,6 +142,7 @@ const validateEmailsOnString = (property, requiredFields, target) => {
 }
 
 const catchError = (err, req, res, next) => {
+  console.log('---', err)
   if (!err) next()
   if (err) {
     const {code, error} = err
@@ -144,4 +156,5 @@ module.exports= {
   catchError,
   validateEmails,
   validateEmailsOnString,
+  validateRequestContentType,
 }
