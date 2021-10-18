@@ -11,6 +11,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm	
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion (node is in path now)
 
+#Copy .env from root folder
+cp -R /home/ubuntu/.env /home/ubuntu/school-erp
+
 #Install node modules
 echo "Installing dependencies..."
 npm install
