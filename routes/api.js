@@ -15,7 +15,7 @@ const {
   studentRegistered,
 } = require('../middlewares/student');
 const {
-  registerStudents,
+  registerStudentsByTeacher,
 } = require('../controllers/teacher');
 const {
   getStudentsByTeacher,
@@ -33,7 +33,7 @@ router
     teachersExist('body'), studentsExist('body'), // Validate input existance on the database
     studentRegistered, // Validate students duplicate registraction with teacher
     catchError, 
-    registerStudents
+    registerStudentsByTeacher
   )
   .get('/commonstudents', 
     formCompleteness( 'query', ['teacher']), 

@@ -4,7 +4,6 @@ const {
   validateRequestContentType,
   formCompleteness,
   validateEmails,
-  validateEmailsOnString,
   catchError,
 } = require('../middlewares/utils');
 const {

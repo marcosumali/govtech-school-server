@@ -1,6 +1,7 @@
 const db = require('../configs/db');
 
-const registerStudents = async (req, res) => {
+// Register students by teacher
+const registerStudentsByTeacher = async (req, res) => {
   try {
     const {teachers, students} = req
 
@@ -43,6 +44,6 @@ const registerTeacher = async (req, res) => {
 
 
 module.exports = {
-  registerStudents,
+  registerStudentsByTeacher,
   registerTeacher,
 }

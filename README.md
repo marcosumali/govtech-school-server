@@ -18,8 +18,14 @@ Published API Endpoint: [API Endpoint](http://ec2-18-141-219-32.ap-southeast-1.c
 
 
 ### API Documentation
-Please refer to postman collection on `docs` folder for API documentation.
-Please note `{{base_url}}` environment variables for postman is the published API endpoints.
+Please refer to postman collection on `docs` folder for API documentation and note that `{{base_url}}` environment variables in postman is the published API endpoints.
+POST `/api/register`: register multiple students by teacher  
+GET `/api/commonstudents`: retrieve students that is registered to teachers  
+POST `/api/suspend`: for teacher to suspend a student  
+POST `/api/retrievefornotifications`: retrieve a list of students who can receive a given notification  
+POST `/teachers/register`: register a new teacher  
+POST `/students/register`: register a new student  
+GET `/students/suspended`: retrieve a list of students that is being suspended  
 
 ### Prerequisites
 Please install below dependencies on your local machine:
@@ -40,8 +46,9 @@ npm install
 
 # Add dummy data to your local MySQL database
 # Please refer to `seeders` folder for sample data 
-# Please notice that we have middleware function to validate whether teacher or student is exists on school database
+# Please notice that we have middleware function to validate whether a teacher or student is exists on school database
 # So if you need valid teacher and student, please refer to `seeders` folder for reference 
+# or use the API to register new teacher or student
 
 # Development
 npm run dev
