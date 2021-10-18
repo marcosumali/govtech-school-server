@@ -5,7 +5,7 @@ const teacherRouter = require('./teacher');
 const studentRouter = require('./student');
 
 const router = express.Router();
-const version = '0.0.8';
+const version = '0.0.9';
 
 router
   .get('/', (req, res) => res.send(`Version: v${version}`))
