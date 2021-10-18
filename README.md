@@ -12,7 +12,7 @@ Framework: ExpressJS
 RDMS: MySQL  
 CI/CD: Amazon Code Pipeline and Amazon Code Deploy  
 Cloud Server: Amazon EC2  
-Cloud Database: Amazon RDS Aurora(MySQL) 
+Cloud Database: Amazon RDS Aurora(MySQL)  
 Database Schema: [Draw.io](https://drive.google.com/file/d/1Y02-s-osBO97V_N2bx6ojAXH8sb-mtT-/view?usp=sharing)  
 Published API Endpoint:  
 - [CDN Endpoint](https://d32egne8vcj7a0.cloudfront.net)  
@@ -22,7 +22,7 @@ Published API Endpoint:
 
 ### API Documentation
 Please refer to postman collection on `docs` folder for API documentation and 
-note that you can choose one of the published endpoints for `{{base_url}}` environment variables in the postman collection.
+note that you can choose one of the published endpoints for `{{base_url}}` environment variables in the postman collection.  
 POST `/api/register`: register multiple students by teacher  
 GET `/api/commonstudents`: retrieve students that is registered to teachers  
 POST `/api/suspend`: for teacher to suspend a student  
