@@ -132,9 +132,50 @@ const getStudentsForNotification = async (req, res) => {
   }
 }
 
+// Register new student
+const registerStudent = async (req, res) => {
+  try {
+    const first_name = req.body.first_name ? req.body.first_name.toLowerCase() : ''
+    const last_name = req.body.last_name ? req.body.last_name.toLowerCase() : ''
+    const email = req.body.email.toLowerCase()
+
+    await db.query(
+      `INSERT INTO student (first_name, last_name, email, status_id) 
+      VALUES (?, ?, ?, ?)`, 
+      [first_name, last_name, email, 1]
+    )
+
+    res.status(204).send()
+    
+  } catch (err) {
+    console.log('ERROR:', err.stack)
+    res.status(500).json({message: err.message})
+  }
+}
+
+// Get list of suspended students
+const getSuspendedStudents = async (req, res) => {
+  try {
+    const [students] = await db.query(
+      `SELECT s.student_id, s.first_name, s.last_name, s.email, sa.name AS status FROM student s
+      LEFT JOIN status sa ON s.status_id = sa.status_id
+      WHERE sa.name = ?`, 
+      ['Suspended']
+    )
+
+    res.status(200).send({students})
+    
+  } catch (err) {
+    console.log('ERROR:', err.stack)
+    res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   getStudentsByTeacher,
   suspendStudent,
   getStudentsForNotification,
+  registerStudent,
+  getSuspendedStudents,
 }

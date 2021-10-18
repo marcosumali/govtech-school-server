@@ -20,7 +20,29 @@ const registerStudents = async (req, res) => {
   }
 }
 
+// Register new teacher
+const registerTeacher = async (req, res) => {
+  try {
+    const first_name = req.body.first_name ? req.body.first_name.toLowerCase() : ''
+    const last_name = req.body.last_name ? req.body.last_name.toLowerCase() : ''
+    const email = req.body.email.toLowerCase()
+
+    await db.query(
+      `INSERT INTO teacher (first_name, last_name, email) 
+      VALUES (?, ?, ?)`, 
+      [first_name, last_name, email]
+    )
+
+    res.status(204).send()
+    
+  } catch (err) {
+    console.log('ERROR:', err.stack)
+    res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   registerStudents,
+  registerTeacher,
 }
