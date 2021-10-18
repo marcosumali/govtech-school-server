@@ -6,13 +6,24 @@
 	},
 	"item": [
 		{
-			"name": "Register students",
+			"name": "Register students by teacher",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"teacher\": \"sransfield0@booking.com\",\n  \"students\": [\n    \"bgerling0@hao123.com\"\n  ]\n}",
+					"raw": "{\n  \"teacher\": \"ahedin3@yolasite.com\",\n  \"students\": [\n    \"bruslin1@ycombinator.com\"\n  ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,6 +61,21 @@
 						{
 							"key": "teacher",
 							"value": "sransfield0@booking.com"
+						},
+						{
+							"key": "teacher",
+							"value": "ahedin3@yolasite.com",
+							"disabled": true
+						},
+						{
+							"key": "teacher",
+							"value": "pommanneyi@howstuffworks.com",
+							"disabled": true
+						},
+						{
+							"key": "teacher",
+							"value": "tcarnilian5@virginia.edu",
+							"disabled": true
 						}
 					]
 				}
@@ -63,7 +89,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"student\": \"cbrobak1d@sphinn.com\"\n}",
+					"raw": "{\n    \"student\": \"rpickover3@msn.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,7 +116,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"teacher\":  \"sransfield0@booking.com\",\n  \"notification\": \"Hello students! @lheadano@ning.com @cbrobak1d@sphinn.com\"\n}",
+					"raw": "{\n  \"teacher\":  \"ahedin3@yolasite.com\",\n  \"notification\": \"Hello students! @avamplew2@illinois.edu @cbrobak1d@sphinn.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,6 +131,78 @@
 					"path": [
 						"api",
 						"retrievefornotifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register teacher",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"john\",\n    \"last_name\": \"doe\",\n    \"email\": \"john.doe3@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/teachers/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"teachers",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"john\",\n    \"last_name\": \"doe\",\n    \"email\": \"john.doe2@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/students/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get suspended students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/students/suspended",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students",
+						"suspended"
 					]
 				}
 			},
