@@ -27,6 +27,7 @@ POST `/teachers/register`: register a new teacher
 POST `/students/register`: register a new student  
 GET `/students/suspended`: retrieve a list of students that is being suspended  
 
+
 ### Prerequisites
 Please install below dependencies on your local machine:
 - [NodeJS](https://nodejs.org/en/download)  
