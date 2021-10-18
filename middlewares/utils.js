@@ -4,6 +4,7 @@ const {
   isEmailEnglishFormat,
 } = require('../helper/utils');
 
+
 const validateRequestContentType = (reqContentType) => {
   return (req, res, next) => {
     if (req.is(reqContentType)) next ()
