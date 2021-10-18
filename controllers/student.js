@@ -3,6 +3,15 @@ const {getConditionQueries} = require('../helper/utils');
 
 // Function to generate registered students by teacher input
 // What considered as valid response is all students that registered all to teachers
+// So we don't return student that is only registed to a specific teacher
+// There's 3 possible scenario from our [Search queries]
+// [Scenario 1]: target teacher doesn't exist from result on [Search queries]
+// meaning some of target teacher doesn't have any student
+// -> return empty students bcs no students that is registered to all teachers
+// [Scenario 2]: more than one teacher is specified as target 
+// -> return duplicate resuts bcs duplicates mean the student exists more than one row (registered to all teachers)
+// [Scenario 3]: only one teacher is specified as target 
+// -> return results bcs all students are registered to the teacher
 const getStudentsByTeacher = async (req, res) => {
   try {
     const {teacher} = req.query
@@ -14,6 +23,7 @@ const getStudentsByTeacher = async (req, res) => {
     const teacherQueries = getConditionQueries(teacherKeys)
     let students = []
     
+    // [Search queries]
     const [rows] = await db.query(
       `SELECT s.email AS student_email, t.email AS teacher_email FROM teacher_student ts
       LEFT JOIN teacher t ON ts.teacher_id = t.teacher_id
@@ -22,9 +32,7 @@ const getStudentsByTeacher = async (req, res) => {
       teacherEmails
     )
 
-    // 2. Some teacher might not yet registered any student
-    // So need to crosscheck with initial target teacher whether they are exist on 
-    // our previous query
+    // 2. Return valid student email
     const teacherWithStudentEmails = rows && rows
       .map(row => row.teacher_email) // Return teacher email
       .filter((email, index, arr) => arr.indexOf(email) === index) // Filter unique
@@ -34,23 +42,21 @@ const getStudentsByTeacher = async (req, res) => {
       if (teacherWithStudentEmails.indexOf(target) >= 0) existScore++
     })
 
-    // 3. Return valid student email
-    // If not all target teacher exists from queries result, return empty data -> meaning students aren't registed to undetected teacher on queries result
-    // Else need to whether target is only one teacher or more
-    // - If only one teacher target, then return all students
-    // - If more than one, return students that is exists in more than one row (check for duplicates)
+    // [Scenario 1]
     if (existScore < teacherEmails.length) {
       students = []
     } else {
+      // [Scenario 2]
+      if (teacherEmails.length > 1) {
+        students = rows && rows
+        .map(row => row.student_email) // Return student email
+        .filter((email, index, arr) => arr.indexOf(email) !== index) // Filter duplicate
+      }
+      // [Scenario 3]
       if (teacherEmails.length <= 1) {
         students = rows && rows
           .map(row => row.student_email) // Return student email
           .filter((email, index, arr) => arr.indexOf(email) === index) // Filter unique
-      }
-      if (teacherEmails.length > 1) {
-        students = rows && rows
-          .map(row => row.student_email) // Return student email
-          .filter((email, index, arr) => arr.indexOf(email) !== index) // Filter duplicate
       }
     }
 
