@@ -118,9 +118,8 @@ const validateEmailsOnString = (property, requiredFields, target) => {
       // Find mentioned emails on string
       // On the string, the email must be mentioned meaning
       // E.g.'Hey everybody! shawn@edu.com @john@edu.com' => valid emails: ['john@edu.com']
-      const emails = value
-        .match(/@([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi) // Get mentioned emails @xxx@xxx.xxx
-        .map(atEmail => atEmail.slice(1)) // Remove at (@) mentioned at beginning email
+      const emailsRegex = value.match(/@([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi)
+      const emails = emailsRegex? emailsRegex.map(atEmail => atEmail.slice(1)) : [] // Remove at (@) mentioned at beginning email
 
       emails && emails.map(email => {
         if (!isEmailEnglishFormat(email)) invalidEmails.push(email)
